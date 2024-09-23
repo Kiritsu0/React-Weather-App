@@ -1,15 +1,15 @@
-import sun from './assets/sun.jpg'
-import snow from './assets/snow.jpg'
-import cloud from './assets/cloud.jpg'
-import Descriptions from './components/Descriptions';
-import {useEffect, useState} from 'react';
-import { getFormattedWeatherData } from './weatherService';
+import sun from "./assets/sun.jpg";
+import snow from "./assets/snow.jpg";
+import cloud from "./assets/cloud.jpg";
+import Descriptions from "./components/Descriptions";
+import { useEffect, useState } from "react";
+import { getFormattedWeatherData } from "./weatherService";
 
 function App() {
-  const [city, setCity] = useState("Paris")
-  const [bg, setBg] = useState('sun')
-  const [weather, setWeather] = useState(null)
-  const [units, setUnits] = useState("metric")
+  const [city, setCity] = useState("Paris");
+  const [bg, setBg] = useState("sun");
+  const [weather, setWeather] = useState(null);
+  const [units, setUnits] = useState("metric");
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -18,22 +18,20 @@ function App() {
         const data = await getFormattedWeatherData(city, units);
         setWeather(data);
         setError(false);
-      }
-      catch (err) {
+      } catch (err) {
         setError(true);
       }
-    }
-    fetchWeatherData()
-
-  }, [units, city])
+    };
+    fetchWeatherData();
+  }, [units, city]);
 
   useEffect(() => {
     if (weather) {
-      if (weather.description.includes('clouds')) {
+      if (weather.description.includes("clouds")) {
         setBg(cloud);
-      } else if (weather.description.includes('clear')) {
+      } else if (weather.description.includes("clear")) {
         setBg(sun);
-      } else if (weather.description.includes('snow')) {
+      } else if (weather.description.includes("snow")) {
         setBg(snow);
       } else {
         setBg(cloud);
@@ -48,43 +46,49 @@ function App() {
     const isCelsius = currentUnit === "C";
     button.innerText = isCelsius ? "°F" : "°C";
     setUnits(isCelsius ? "metric" : "imperial");
-  }
+  };
 
   const enterKeyPressed = (e) => {
-    if (e.keyCode === 13){//13 is the code number returned by the Enter key
+    if (e.keyCode === 13) {
+      //13 is the code number returned by the Enter key
       setCity(e.currentTarget.value);
-      e.currentTarget.blur()//This is used to loose focus on the input
+      e.currentTarget.blur(); //This is used to loose focus on the input
     }
-  }
+  };
 
   return (
-    <div className="app" style={{backgroundImage: `url(${bg})`}}>
+    <div className="app" style={{ backgroundImage: `url(${bg})` }}>
       <div className="overlay">
-        {
-          weather && (
-            <div className="container">
-              <div className="section section_inputs">
-                <div id="error_message">
-                  {error ? <p>Failed to Load</p>: null}
-                  <input onKeyDown={enterKeyPressed} type="text" name="city" placeholder="Enter Location" ></input>
-                </div>
-                <button onClick={(e) => handleUnitsClick(e)}>°F</button>
+        {weather && (
+          <div className="container">
+            <div className="section section_inputs">
+              <div id="error_message">
+                {error ? <p>Failed to Load</p> : null}
+                <input
+                  onKeyDown={enterKeyPressed}
+                  type="text"
+                  name="city"
+                  placeholder="Enter Location"
+                ></input>
               </div>
-              <div className="section section_temperature">
-                <div className="icon">
-                  <h3>{`${weather.name}, ${weather.country}`}</h3>
-                  <img src={weather.iconURL} alt="weatherIcon"></img>
-                  <h3>{weather.description}</h3>
-                </div>
-                <div className="temperature">
-                  <h1>{`${weather.temp.toFixed()} °${units === 'metric' ? 'C': 'F'}`}</h1>
-                </div>
-              </div>
-              <Descriptions weather={weather} units= {units}/>
+              <button onClick={(e) => handleUnitsClick(e)}>°F</button>
             </div>
-          )
-        }
-       </div>
+            <div className="section section_temperature">
+              <div className="icon">
+                <h3>{`${weather.name}, ${weather.country}`}</h3>
+                <img src={weather.iconURL} alt="weatherIcon"></img>
+                <h3>{weather.description}</h3>
+              </div>
+              <div className="temperature">
+                <h1>{`${weather.temp.toFixed()} °${
+                  units === "metric" ? "C" : "F"
+                }`}</h1>
+              </div>
+            </div>
+            <Descriptions weather={weather} units={units} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

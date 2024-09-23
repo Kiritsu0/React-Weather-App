@@ -15,6 +15,7 @@
     height: 100vh;
     background-size: cover;
     background-position: center;
+    position: fixed;
 }
 
 .overlay {
@@ -100,3 +101,11 @@
     
 }
 
+@media screen and (max-width: 600px) {
+    .section_inputs> #error_message> input {
+        width: 200px;
+    }
+    .section_inputs>button {
+        padding: 10px 40px;
+    }
+}
