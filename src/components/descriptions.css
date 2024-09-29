@@ -1,7 +1,7 @@
 .section_descriptions {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
+    gap: 1.5rem;
 }
 
 .card {
@@ -29,5 +29,11 @@
 @media screen and (max-width: 600px){
     .card {
         justify-content: space-around;
+    }
+}
+
+@media (max-width: 1024px) {
+    .section_descriptions {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

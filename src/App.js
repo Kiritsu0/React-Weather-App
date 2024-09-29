@@ -59,7 +59,7 @@ function App() {
   return (
     <div className="app" style={{ backgroundImage: `url(${bg})` }}>
       <div className="overlay">
-        {weather && (
+        {weather ? (
           <div className="container">
             <div className="section section_inputs">
               <div id="error_message">
@@ -87,7 +87,7 @@ function App() {
             </div>
             <Descriptions weather={weather} units={units} />
           </div>
-        )}
+        ) : <div className="error">Check Your Internet Connection</div>}
       </div>
     </div>
   );
